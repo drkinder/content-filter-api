@@ -1,27 +1,11 @@
 steps:
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: "/bin/sh"
-    args:
-    - '-c'
-    - |
-      gcloud secrets versions access 1 --secret=github-ssh >> /root/.ssh/id_rsa && \
-      gcloud secrets versions access 1 --secret=github-ssh-pub >> /root/.ssh/id_rsa.pub && \
-      echo "Hostname github.com \nIdentityFile /root/.ssh/id_rsa" >> /root/.ssh/config && \
-      chmod 400 /root/.ssh/id_rsa && \
-      ssh-keyscan -t rsa github.com > known_hosts.github && \
-      cp known_hosts.github /root/.ssh/known_hosts && \
-      git config --global user.email "dylkinder@gmail.com" && \
-      git config --global user.name "drkinder"
-    volumes:
-    - name: "ssh"
-      path: "/root/.ssh"
   - name: 'gcr.io/kaniko-project/executor:v1.6.0'
     args:
-    - --destination=gcr.io/datacose/hartford-sweat-api
+    - --destination=gcr.io/mads/content-filter-api
     - --cache=true
     - --context=src
     volumes:
     - name: "ssh"
       path: "/root/.ssh"
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'deploy', 'hartford-sweat-api', '--image', 'gcr.io/datacose/hartford-sweat-api', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated', '--service-account', 'p-hartford-sweat@datacose.iam.gserviceaccount.com']
+    args: ['run', 'deploy', 'content-filter-api', '--image', 'gcr.io/mads/content-filter-api', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated', '--service-account', 'p-hartford-sweat@datacose.iam.gserviceaccount.com']
