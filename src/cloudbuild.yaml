@@ -1,8 +1,8 @@
 steps:
   - name: 'gcr.io/kaniko-project/executor:v1.6.0'
     args:
-    - --destination=gcr.io/mads/content-filter-api
+    - --destination=gcr.io/mads-330511/content-filter-api
     - --cache=true
     - --context=src
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'deploy', 'content-filter-api', '--image', 'gcr.io/mads/content-filter-api', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'content-filter-api', '--image', 'gcr.io/mads-330511/content-filter-api', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
