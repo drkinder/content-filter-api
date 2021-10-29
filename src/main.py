@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from content_filter.routes import router as content_filter_router
+from content_filter.routes import (filter_twitter_content)
 
 app = FastAPI(
     title="MADS Capstone - Social Media Content Filter",
@@ -9,7 +9,7 @@ app = FastAPI(
 )
 
 
-app.include_router(content_filter_router)
+app.add_api_route('/filter-twitter-content/', filter_twitter_content, methods=['POST'])
 
 
 app.add_middleware(
