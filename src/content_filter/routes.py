@@ -1,12 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from starlette.status import HTTP_200_OK
 
 from .models import FilteredContent
 
-router = APIRouter(prefix='/content-filter')
+router = APIRouter(prefix='/api')
 
 
 @router.get("/filter-twitter-content", status_code=HTTP_200_OK, tags=["Twitter Content Filter"],
             response_model=FilteredContent)
-def filter_twitter_content(twitter_content: str, filter_threshold: int) -> FilteredContent:
-    return FilteredContent(html_content=twitter_content)
+def filter_twitter_content(request: Request) -> FilteredContent:
+    data = await request.json()
+    return FilteredContent(html_content=data.get('content'))
