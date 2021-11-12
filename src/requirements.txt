@@ -1,4 +1,6 @@
 fastapi==0.63.0
 uvicorn==0.13.4
 pydantic[dotenv,email]
+numpy==1.19.2
 fastapi-utils==0.2.1
+scikit-learn==0.23.1
