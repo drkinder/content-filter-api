@@ -21,7 +21,8 @@ async def filter_twitter_content(request: Request) -> FilteredContent:
 
 async def filter_linear_svc(request: Request) -> FilteredContent:
     data: dict = await request.json()
-    model: Pipeline = pickle.load(open(os.path.join('resources', 'LinearSVCModel79%.sav'), 'rb'))
+    # model: Pipeline = pickle.load(open(os.path.join('resources', 'LinearSVCModel79%.sav'), 'rb'))  # Local
+    model: Pipeline = pickle.load(open(os.path.join('content_filter', 'resources', 'LinearSVCModel79%.sav'), 'rb'))  # Production
     is_filtered: bool = False  # Default value if problem
     try:
         prob: List[List[float, float]] = model.predict_proba([data.get('body', '')])  # [[% negative, % positive]]
@@ -33,7 +34,8 @@ async def filter_linear_svc(request: Request) -> FilteredContent:
 
 async def filter_multinomial_naive_bayes(request: Request) -> FilteredContent:
     data: dict = await request.json()
-    model: Pipeline = pickle.load(open(os.path.join('resources', 'mnb72.pickle'), 'rb'))
+    # model: Pipeline = pickle.load(open(os.path.join('resources', 'mnb72.pickle'), 'rb'))  # Local
+    model: Pipeline = pickle.load(open(os.path.join('content_filter', 'resources', 'mnb72.pickle'), 'rb'))  # Production
     is_filtered: bool = False  # Default value if problem
     try:
         prob: List[List[float]] = model.predict_proba([data.get('body', '')])  # [[% negative, % positive]]
