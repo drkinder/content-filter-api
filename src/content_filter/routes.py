@@ -27,7 +27,7 @@ async def filter_linear_svc(request: Request) -> FilteredContent:
     is_filtered: bool = False  # Default value if problem
     try:
         prob: List[List[float, float]] = model.predict_proba([data.get('body', '')])[0][1]  # [[% negative, % positive]]
-        is_filtered = prob >= data.get('threshold', 0.5)
+        is_filtered = prob <= data.get('threshold', 0.5)
     except IndexError:
         print(f"Index error with model.predict_proba response in filter_linear_svc: {prob}")
     return FilteredContent(filter=is_filtered, confidencePostive=prob)
@@ -41,7 +41,7 @@ async def filter_multinomial_naive_bayes(request: Request) -> FilteredContent:
     prob: Optional[float] = None
     try:
         prob: List[List[float]] = model.predict_proba([data.get('body', '')])[0][1]  # returns [[% neg, % pos]]
-        is_filtered = prob >= data.get('threshold', 0.5)
+        is_filtered = prob <= data.get('threshold', 0.5)
     except IndexError:
         print(f"Index error with model.predict_proba response in filter_multinomial_naive_bayes: "
               f"{model.predict_proba([data.get('body', '')])}")
