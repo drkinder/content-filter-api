@@ -37,7 +37,7 @@ async def filter_multinomial_naive_bayes(request: Request) -> FilteredContent:
     data: dict = await request.json()
     # model: Pipeline = pickle.load(open(os.path.join('resources', 'mnb72.pickle'), 'rb'))  # Local
     model: Pipeline = pickle.load(open(os.path.join('content_filter', 'resources', 'mnb72.pickle'), 'rb'))  # Production
-    is_filtered: bool = False  # Default value if problem
+    is_filtered: bool = False  # Default value if error
     prob: Optional[float] = None
     try:
         prob: List[List[float]] = model.predict_proba([data.get('body', '')])[0][1]  # returns [[% neg, % pos]]
