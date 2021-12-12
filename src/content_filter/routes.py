@@ -5,8 +5,8 @@ from typing import List, Optional
 from fastapi import Request
 from sklearn.pipeline import Pipeline
 
-from filters import random_filter
-from models import FilteredContent
+from .filters import random_filter
+from .models import FilteredContent
 
 
 async def filter_twitter_content(request: Request) -> FilteredContent:
