@@ -12,7 +12,7 @@ from .models import FilteredContent
 
 
 async def filter_twitter_content(request: Request) -> FilteredContent:
-    return filter_linear_svc(request)
+    return await filter_linear_svc(request)
 
 
 async def filter_random(request: Request) -> FilteredContent:
