@@ -36,14 +36,14 @@ def does_tweet_contain_filter_words(tweet_payload: dict) -> bool:
     return any([word in tweet_tokens for word in filter_tokens])
 
 
-def preprocess_tweet_body(path: Path, tweet_body: str) -> List[str]:
+def preprocess_tweet_body(path: Path, tweet_body: str) -> str:
     """Converts a single Tweet text into a list of bigrams for classification.
 
     :param path: the path to the pickled phrase model
     :param tweet_body: the text content of a single Tweet
-    :return: List[str] underscores between bigrams in single str
+    :return: bigrams linked by underscores, delimited by spaces e.g. new_york big_apple
     """
     phrase_model = pickle.load(open(path, 'rb'))
     tweet_tokens = preprocess_string(tweet_body)
     tweet_tokens = [word for word in tweet_tokens if word not in FULL_STOP]
-    return phrase_model[tweet_tokens]
+    return ' '.join(phrase_model[tweet_tokens])

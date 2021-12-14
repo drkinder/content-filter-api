@@ -33,7 +33,7 @@ async def filter_linear_svc(request: Request) -> FilteredContent:
 
     # Load in models and preprocess tweet body text for prediction
     phrase_model_path: Path = Path(__file__).parent / 'resources/phrasemodel.sav'
-    processed_tweet_body: List[str] = preprocess_tweet_body(phrase_model_path, tweet_body)
+    processed_tweet_body: str = preprocess_tweet_body(phrase_model_path, tweet_body)
     linear_svc_model_path: Path = Path(__file__).parent / 'resources/LinearSVCModel.sav'
     model: Pipeline = pickle.load(open(linear_svc_model_path, 'rb'))
 
@@ -41,7 +41,7 @@ async def filter_linear_svc(request: Request) -> FilteredContent:
     is_filtered: bool = False
     prob: float = 0
     try:
-        prob: List[List[float, float]] = model.predict_proba([processed_tweet_body])[0][1]  # [[% neg, % pos]]
+        prob = model.predict_proba([processed_tweet_body])[0][1]  # [[% neg, % pos]]
         is_filtered = prob <= payload.get('threshold', 0.5)
     except IndexError:
         print(f"Index error with model.predict_proba response in filter_linear_svc: {prob}")
