@@ -28,7 +28,11 @@ def does_tweet_contain_filter_words(tweet_payload: dict) -> bool:
     :return: bool are one of the filtered words inside of the Tweet text?
     """
     tweet_tokens: List[str] = preprocess_string(tweet_payload.get('body', ''))
-    filter_tokens: List[str] = [preprocess_string(word) for word in tweet_payload.get('filter_words', [])]
+    filter_tokens: List[str] = []
+    for filter_word in tweet_payload.get('filter_words', []):
+        if isinstance(filter_word, str):
+            filter_tokens.extend(preprocess_string(filter_word))
+
     return any([word in tweet_tokens for word in filter_tokens])
 
 
