@@ -17,7 +17,7 @@ async def filter_twitter_content(request: Request) -> FilteredContent:
 
 async def filter_random(request: Request) -> FilteredContent:
     payload: dict = await request.json()
-    return FilteredContent(filter=random_filter(payload.get('threshold', 0)), confidence_postive=0)
+    return FilteredContent(filter=random_filter(payload.get('threshold', 0)), confidence_positive=0)
 
 
 async def filter_linear_svc(request: Request) -> FilteredContent:
@@ -47,7 +47,7 @@ async def filter_linear_svc(request: Request) -> FilteredContent:
         print(f"Index error with model.predict_proba response in filter_linear_svc: {prob}")
     except Exception as e:
         print(f"An error occurred! {e}")
-    return FilteredContent(filter=is_filtered, confidence_postive=prob)
+    return FilteredContent(filter=is_filtered, confidence_positive=prob)
 
 
 async def filter_multinomial_naive_bayes(request: Request) -> FilteredContent:
@@ -62,4 +62,4 @@ async def filter_multinomial_naive_bayes(request: Request) -> FilteredContent:
         print(f"Index error with model.predict_proba response in filter_multinomial_naive_bayes: "
               f"{model.predict_proba([payload.get('body', '')])}")
         return FilteredContent(filter=is_filtered)
-    return FilteredContent(filter=is_filtered, confidence_postive=prob)
+    return FilteredContent(filter=is_filtered, confidence_positive=prob)
