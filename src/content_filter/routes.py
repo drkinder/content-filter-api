@@ -31,10 +31,11 @@ async def filter_linear_svc(request: Request) -> FilteredContent:
     if does_tweet_contain_filter_words(payload):
         return FilteredContent(filter=True)
 
-    # Load in model and preprocess tweet body text for prediction
-    model_path: Path = Path('resources/LinearSVCModel.sav')
-    model: Pipeline = pickle.load(open(model_path, 'rb'))
-    processed_tweet_body: List[str] = preprocess_tweet_body(model_path, tweet_body)
+    # Load in models and preprocess tweet body text for prediction
+    phrase_model_path: Path = Path(__file__).parent / 'resources/phrasemodel.sav'
+    processed_tweet_body: List[str] = preprocess_tweet_body(phrase_model_path, tweet_body)
+    linear_svc_model_path: Path = Path(__file__).parent / 'resources/LinearSVCModel.sav'
+    model: Pipeline = pickle.load(open(linear_svc_model_path, 'rb'))
 
     # Set default values if any error during classification
     is_filtered: bool = False
@@ -62,4 +63,3 @@ async def filter_multinomial_naive_bayes(request: Request) -> FilteredContent:
               f"{model.predict_proba([payload.get('body', '')])}")
         return FilteredContent(filter=is_filtered)
     return FilteredContent(filter=is_filtered, confidence_postive=prob)
-
