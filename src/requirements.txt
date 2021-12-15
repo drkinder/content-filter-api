@@ -6,3 +6,5 @@ fastapi-utils==0.2.1
 scikit-learn==0.23.1
 gensim==4.1.2
 langdetect==1.0.9
+pytest==6.2.3
+typeguard==2.13.3
