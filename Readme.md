@@ -28,7 +28,7 @@ curl --location --request POST 'https://content-filter-api-js23pan5iq-uc.a.run.a
 }'
 ```
 #### Example JSON Response
-```json
+```
 {
     "filter": boolean,  # should the tweet be filtered?
     "confidence_positive": float  # optional - if model.predict is called, the predicted positivity of the tweet 0-1
