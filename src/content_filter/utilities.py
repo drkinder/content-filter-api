@@ -43,6 +43,9 @@ def does_text_contain_filter_words(text: str, words_to_filter: List[str], includ
     :raises: TypeError if filter_words is not in types List[str], no error if empty list
     :return: bool are one of the filtered words inside of the Tweet text?
     """
+    if not words_to_filter:
+        return False
+
     check_type('text', text, str)
     check_type('words_to_filter', words_to_filter, List[str])
 
