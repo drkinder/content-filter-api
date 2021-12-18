@@ -8,8 +8,14 @@ from sklearn.pipeline import Pipeline
 from .models import FilteredContent
 
 
-def random_filter(probability: Union[int, float]) -> bool:
-    return random.random() <= probability
+def random_filter(threshold: Union[int, float]) -> bool:
+    """Generates a random value between 0 and 1 and returns True if the value is less than or equal to the threshold
+    param.
+
+    :param threshold: cutoff value ranging from 0-1 inclusive
+    :return: True if threshold is less than or equal to the randomly generated value else False
+    """
+    return random.random() <= threshold
 
 
 def linear_svc_filter(processed_tweet_body: str, threshold: float) -> FilteredContent:
